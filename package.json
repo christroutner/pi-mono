@@ -27,7 +27,11 @@
 		"release:patch": "node scripts/release.mjs patch",
 		"release:minor": "node scripts/release.mjs minor",
 		"release:major": "node scripts/release.mjs major",
-		"prepare": "husky"
+		"prepare": "husky",
+		"daemon": "pi --mode rpc -e ../pi-extensions/telegram.ts",
+		"daemon:start": "nohup pi --mode rpc -e ../pi-extensions/telegram.ts < /dev/null > ~/.pi/daemon.log 2>&1 & echo $! > ~/.pi/daemon.pid && echo 'Started with PID' $(cat ~/.pi/daemon.pid)",
+		"daemon:stop": "if [ -f ~/.pi/daemon.pid ]; then kill $(cat ~/.pi/daemon.pid) 2>/dev/null && rm ~/.pi/daemon.pid && echo 'Stopped'; else echo 'No daemon running'; fi",
+		"daemon:logs": "tail -f ~/.pi/daemon.log"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.5",
